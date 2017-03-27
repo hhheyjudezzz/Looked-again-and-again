@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>翻翻看</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		html,body{
+			height: 100%;
+			width: 100%;	
+			overflow: hidden;		
+		}
+		#wrap{
+			height: 100%;
+			width: 100%;
+			position: relative;
+		}
+		#rule{
+			background: url("image/20170318172857.jpg") 0 0 no-repeat;
+			background-size: 100% 100%;
+			height: 100%;
+			width: 100%;	
+			position: relative;		
+		}
+		#closeBtn{
+			background: url("image/WSG.png") 0 0 no-repeat;
+			background-size: 100% 100%;
+		    border: 0px;
+		    width: 8%;
+		    height: 4%;
+		    position: absolute;
+		    top: 6%;
+		    right: 9%;
+		}
+		#cover-contain{
+			background: url("image/20170318174120.jpg") 0 0 no-repeat;
+			background-size: 100% 100%;
+			display: none;
+			height: 100%;
+			width: 100%;	
+			position: relative;				
+		}
+		#startBtn{
+			background: url("image/N.png") 0 0 no-repeat;
+			background-size: 100% 100%;
+			outline: none;
+		    border: 0px;
+		    width: 37%;
+		    height: 6%;
+		    position: absolute;
+		    top: 76%;
+		    right: 31%;
+		}
+		#cover-contain p{
+		    font-size: 12px;
+		    text-align: center;
+		    position: absolute;
+		    width: 100%;
+		    top: 83%;
+		    color: #808084;
+		}
+		#first{
+			display: none;
+			height: 100%;
+			width: 100%;
+			background-color: #dcdcdd;	
+			position: absolute;
+			top: -100%;		
+		}
+		#first img{
+			position: absolute;
+			/*display: none;*/
+			top: 50%;
+			left: 50%;
+			-webkit-transform: translateX(-50%) translateY(-50%);
+			width: 50%;
+		}
+		#game{
+			display: none;
+			height: 100%;
+			width: 100%;
+			position: relative;	
+			background: url("image/draw_bg.png") 0 0 no-repeat; 
+			background-size: 100% 100%;	
+		}	
+		#time_header{
+			position: absolute;
+		    left: 50%;
+		    margin-left: -45%;
+		    top: 5%;
+		    width: 90%;
+		    height: 7%;
+		}	
+		#game_bg{
+			position: absolute;
+			bottom: 6%;
+		    width: 100%;
+		    height: auto;			
+		}
+		#container{
+
+			position: absolute;
+			top: 16%;
+			width: 100%;
+			padding-left: 14%;
+		}
+		#container .inner{
+			-webkit-transform-style:preserve-3d;
+			width: 35%;
+			margin-right: 2%;
+			margin-bottom: 2%;
+			float: left;
+			font-size:0px;
+			position: relative;
+			transition:0.5s;
+		}
+		@keyframes ant{
+			from{
+				transform:rotatey(0deg);
+			}
+			to{
+				transform:rotatey(180deg);
+			}
+		}
+		@keyframes backAnt{
+			from{
+				transform:rotatey(180deg);
+			}
+			to{
+				transform:rotatey(0deg);
+			}
+		}		
+		.inner_ant{
+			animation:ant 1s 1 running forwards;
+		}	
+		.inner_backAnt{
+			animation:backAnt 1s 1 running forwards;
+		}			
+		.inner img{
+			width: 100%;
+			height: auto;
+		}
+		.gameIndex{
+			/*z-index: 1;*/
+			-webkit-transform: rotateY(180deg);
+			position: absolute;
+			top: 0;
+			left: 0;			
+		}
+		.inner:nth-child(6)~div{
+			display: none;
+		}
+		#timer_contanier{    
+		    /*border-radius:50% 50% 0 0;*/
+		    position: absolute;
+		    left: 50%;
+		    margin-left: -36%;
+		    top: 5%;
+		    width: 72%;
+		    height: 4%;
+		    overflow: hidden;
+		}
+		#cubic{
+		    width: 93%;
+		    height: 100%;
+		    background: url(image/countdown.png) 0 0 repeat;
+		    position: absolute;
+		    left: 3%;
+		}
+		#circle{
+			position: absolute;
+			width: 8%;
+			height: 100%;
+			border-radius:50%;
+			background: url("image/countdown.png") 0 0 repeat;
+		}
+		#circle1{
+		    position: absolute;
+		    left: 92.7%;
+		    width: 7%;
+		    height: 100%;
+		    border-radius: 50%;
+			background: url("image/countdown.png") 0 0 repeat;
+		}
+		#second{
+			position: absolute;
+		    top: 5.8%;
+		    left: 87%;
+		    font: 16px bold arial;
+		}
+		#percent{
+		    position: absolute;
+		    top: 9%;
+		    left: 71%;
+		    color: white;
+		    font: 16px bold arial;
+		}	
+		.game_mask{
+			display: none;
+			background: rgba(0,0,0,0.8);
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			top: -100%;	
+			left: 0;
+		}
+		.mask_img{
+			position: absolute;
+			top: 50%;
+			left:50%;
+			width: 50%;
+			height: auto;
+			-webkit-transform: translateX(-50%) translateY(-50%);		
+		}
+
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="rule">
+			<button id="closeBtn"></button>
+		</div>
+		<div id="cover-contain">
+			<button id="startBtn"></button>
+			<p>><span>活动规则</span><</p>
+		</div>
+		<div id="first">
+			<img src="image/first.png" alt="">
+		</div>
+		<div id="game">
+			<img src="image/head_time.png" alt="" id="time_header">
+			<p id = "second">0</p>
+			<p id = "percent">100%</p>
+			<div id="timer_contanier">
+				<div id="circle"></div>
+				<div id="cubic"></div>
+				<div id="circle1"></div>
+			</div>
+			<div id="container">
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img  class="gameIndex" data-src="image/goretex1.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex1.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex2.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex2.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex3.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex3.png" alt="">
+				</div>
+				<!--游戏页面二 -->
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex4.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex4.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex5.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex5.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex6.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex6.png" alt="">
+				</div>
+				<!-- 页面3 -->
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex7.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex7.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex8.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex8.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex9.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex9.png" alt="">
+				</div>	
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex10.png" alt="">
+				</div>
+				<div class="inner">
+					<img class="mark" src="image/goretex.png" alt="">
+					<img class="gameIndex" data-src="image/goretex10.png" alt="">
+				</div>												
+			</div>
+			<img src="image/draw_footer.png" alt="" id="game_bg">
+		</div>
+		<div id="game_over" class="game_mask">
+			<img src="image/lose.png" alt="" id="over_img" class="mask_img">
+		</div>	
+		<div id="game_next" class="game_mask">
+			<img src="image/next.png" alt="" id="next_img" class="mask_img">
+		</div>	
+		<div id="game_pass" class="game_mask">
+			<img src="image/pass.png" alt="" id="pass_img" class="mask_img">
+		</div>			
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="js/jq_easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+</html>
